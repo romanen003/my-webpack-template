@@ -1,8 +1,7 @@
 import React from 'react';
-import classNames from 'classnames/bind'
-// @ts-ignore
-import style from './style.scss';
 import ReactDOM from 'react-dom';
+import classNames from 'classnames/bind';
+import style from './style.scss';
 import { Title } from "./title/title";
 
 const cn = classNames.bind(style);

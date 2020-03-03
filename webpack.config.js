@@ -128,9 +128,5 @@ module.exports = {
 		port: 1111,
 		hot: isDev
 	},
-	externals: {
-		"react": "react",
-		"react-dom": "react-dom"
-	},
 	...(isDev && {devtool: 'source-map'}) // сорс мапа для девелоп режима
 };
