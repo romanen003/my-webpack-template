@@ -11,122 +11,106 @@ const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 
 const getFileName = type => isDev ? `[name].${type}` : `[name].[hash].${type}`; // получение имен файлов
-const getCssLoaders = add => {  //конфигуратор массива лоадеров для стилевых файлов
-	const loaders = [
-		isProd ? MiniCssExtractPlugin.loader : 'style-loader',
-		{
-			loader: 'css-loader',
-			options: {
-				modules: {
-					mode: 'local',
-					localIdentName: '[local]--[hash:base64:5]',
-					hashPrefix: 'my-custom-hash',
-				}
-			}
-		}
-	];
-
-	if (add) {
-		loaders.push(add)
-	}
-
-	return loaders;
-};
+const getCssLoaders = () => ([
+    isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+    {
+        loader: 'css-loader',
+        options: {
+            modules: {
+                mode: 'local',
+                localIdentName: '[local]--[hash:base64:5]',
+                hashPrefix: 'my-custom-hash',
+            }
+        }
+    },
+    'sass-loader'
+]);
 const getJsLoaders = () => {
-	const loaders = ['babel-loader'];
+    const loaders = ['babel-loader'];
 
-	if (isDev) {
-		loaders.push('eslint-loader')
-	}
+    if (isDev) {
+        loaders.push('eslint-loader')
+    }
 
-	return loaders;
+    return loaders;
 };
 const getPlugins = () => {
-	const plugins = [
-		new CleanWebpackPlugin(),  // очистка папки dist
-		new HtmlWebpackPlugin({
-			template: '../index.html', // путь к шаблону html
-			title: 'Roman\'s app',  // заголовок страницы
-			minify: {
-				collapseWhitespace: isProd // минификация html
-			}
-		}),
-		new MiniCssExtractPlugin({
-			filename: getFileName('css'),  // название финального файла css
-			chunkFilename: '[id].[hash].css' // имена чанков стилей
-		}),
-		new CopyWebpackPlugin([{
-			from: path.resolve(__dirname, 'src/favicon.ico'), // копирование фавиконки
-			to: path.resolve(__dirname, 'dist') // в папку дист
-		}])
-	];
+    const plugins = [
+        new CleanWebpackPlugin(),  // очистка папки dist
+        new HtmlWebpackPlugin({
+            template: '../index.html', // путь к шаблону html
+            title: 'Roman\'s app',  // заголовок страницы
+            minify: {
+                collapseWhitespace: isProd // минификация html
+            }
+        }),
+        new MiniCssExtractPlugin({
+            filename: getFileName('css'),  // название финального файла css
+            chunkFilename: '[id].[hash].css' // имена чанков стилей
+        }),
+        new CopyWebpackPlugin([{
+            from: path.resolve(__dirname, 'src/favicon.ico'), // копирование фавиконки
+            to: path.resolve(__dirname, 'dist') // в папку дист
+        }])
+    ];
 
-	if (isProd) {
-		plugins.push(new BundleAnalyzerPlugin())
-	}
+    if (isProd) {
+        plugins.push(new BundleAnalyzerPlugin())
+    }
 
-	return plugins
+    return plugins
 };
 const getRules = () => ([
-	{ //правила для js/jsx файлов
-		test: /\.(js|jsx)$/,
-		exclude: /node_modules/,
-		use: getJsLoaders()
-	},
-	{ //правила для ts/tsx файлов
-		test: /\.(ts|tsx)$/,
-		exclude: /node_modules/,
-		use: getJsLoaders()
-	},
-	{ //правила для scss файлов
-		test: /\.s[ac]ss$/,
-		use: getCssLoaders('sass-loader')
-	},
-	{ //правила для css файлов
-		test: /\.css$/i,
-		use: getCssLoaders()
-	},
-	{ //правила для pictures
-		test: /\.(png|jpg|svg|gif)$/,
-		loader: 'file-loader'
-	},
-	{ //правила для fonts
-		test: /\.(ttf|woff|woff2|eot)$/,
-		loader: 'file-loader'
-	}
+    { //правила для ts/tsx файлов
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: getJsLoaders()
+    },
+    { //правила для scss файлов
+        test: /\.s[ac]ss$/,
+        use: getCssLoaders()
+    },
+    { //правила для pictures
+        test: /\.(png|jpg|svg|gif)$/,
+        loader: 'file-loader'
+    },
+    { //правила для fonts
+        test: /\.(ttf|woff|woff2|eot)$/,
+        loader: 'file-loader'
+    }
 ]);
 const getOptimization = () => ({ // обьект оптимизаций
-	splitChunks: {
-		chunks: "all"
-	},
-	...(isProd && {
-		minimizer: [
-			new TerserWebpackPlugin(),
-			new OptimizeCssAssetsWebpackPlugin()
-		]})
+    splitChunks: {
+        chunks: "all"
+    },
+    ...(isProd && {
+        minimizer: [
+            new TerserWebpackPlugin(),
+            new OptimizeCssAssetsWebpackPlugin()
+        ]})
 });
 
 module.exports = {
-	context: path.resolve(__dirname, 'src'), //контекст для конфига
-	entry: ['@babel/polyfill', './app.tsx'], // исходный файл + полифилы для новых фич js
-	output: { // обьект для настройка бандла
-		path: path.resolve(__dirname, 'dist'), // куда положить бандл
-		filename: getFileName('js') // имя - маска  бандла
-	},
-	resolve: {
-		extensions: ['.js', '.jsx', '.tsx', '.ts', '.jpeg', '.jpg'], // импорт файлов данного формата без указания формата
-		alias: {
-			'@src': path.resolve(__dirname, 'src') // относительный путь в импортах
-		}
-	},
-	plugins: getPlugins(), // массив вспомогательных плагинов
-	optimization: getOptimization(), // обьект оптимизаций
-	module: {
-		rules: getRules()  // правила обработки файлов
-	},
-	devServer: { //настройка дев сервера
-		port: 1111,
-		hot: isDev
-	},
-	...(isDev && {devtool: 'source-map'}) // сорс мапа для девелоп режима
+    context: path.resolve(__dirname, 'src'), //контекст для конфига
+    entry: ['@babel/polyfill', './app.tsx'], // исходный файл + полифилы для новых фич js
+    output: { // обьект для настройка бандла
+        path: path.resolve(__dirname, 'dist'), // куда положить бандл
+        filename: getFileName('js') // имя - маска  бандла
+    },
+    resolve: {
+        extensions: ['.js', '.jsx', '.tsx', '.ts', '.jpeg', '.jpg'], // импорт файлов данного формата без указания формата
+        alias: {
+            '@src': path.resolve(__dirname, 'src') // относительный путь в импортах
+        }
+    },
+    plugins: getPlugins(), // массив вспомогательных плагинов
+    optimization: getOptimization(), // обьект оптимизаций
+    module: {
+        rules: getRules()  // правила обработки файлов
+    },
+    devServer: { //настройка дев сервера
+        port: 1111,
+        hot: isDev
+    },
+    ...(isDev && {devtool: 'source-map'}) // сорс мапа для девелоп режима
 };
