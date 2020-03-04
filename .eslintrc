@@ -8,7 +8,9 @@
     "no-unused-vars": "warn",
     "react/destructuring-assignment": ["warn" , "always"],
     "react/prop-types": "off",
-    "indent": ["warn", 4]
+    "indent": ["warn", 4],
+    "array-callback-return": ["warn", {"allowImplicit": false}],
+    "complexity": ["error", { "max": 2 }]
   },
   "extends": [
     "eslint:recommended",
