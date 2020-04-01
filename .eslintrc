@@ -8,12 +8,50 @@
     "typescript": true
   },
   "rules": {
-    "no-unused-vars": "warn",
-    "react/destructuring-assignment": ["warn" , "always"],
-    "react/prop-types": "off",
-    "indent": ["warn", 4],
-    "array-callback-return": ["warn", {"allowImplicit": false}],
-    "complexity": ["error", { "max": 2 }]
+    "function-paren-newline": ["error", { "minItems": 3 }],
+    "indent": ["error", 4, {
+      "SwitchCase": 1,
+      "VariableDeclarator": "first",
+      "MemberExpression": 1,
+      "ArrayExpression": 1,
+      "ObjectExpression": 1,
+      "ImportDeclaration": 1,
+      "ignoreComments": true
+    }],
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": "off",
+    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "object-curly-spacing": ["error", "always"],
+    "comma-dangle": ["error", "never"],
+    "array-bracket-spacing": ["error", "always"],
+    "max-len": ["error", 120, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": false,
+      "ignoreRegExpLiterals": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true
+    }
+    ],
+    "no-unused-vars": [
+      "warn", {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": false
+      }
+    ],
+    "no-use-before-define": ["error", { "functions": true, "classes": true }],
+    "no-return-assign": "off",
+    "no-duplicate-imports": ["error", { "includeExports": true }],
+    "class-methods-use-this": "error",
+    "no-console": 0,
+    "arrow-body-style": [2, "as-needed"],
+    "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
+    "react/default-props-match-prop-types": "off",
+    "react/require-default-props": "off",
+    "react/prefer-stateless-function": ["off", {"ignorePureComponents": true}],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
   },
   "extends": [
     "eslint:recommended",

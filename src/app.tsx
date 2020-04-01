@@ -12,7 +12,13 @@ const App = () => (
     </div>
 );
 
-ReactDOM.render(
-    <App />,
-    document.getElementById('root'),
-);
+ReactDOM.render(<App />,
+    document.getElementById('root'));
+
+
+const obj = {
+    a: 2,
+    b: 3
+};
+
+export const a = (props: {a: string}) => props.a;
