@@ -9,6 +9,7 @@
     ["@babel/plugin-proposal-optional-chaining", { "loose": true }],
     ["@babel/plugin-transform-react-display-name"],
     ["@babel/plugin-proposal-object-rest-spread", { "loose":  true, "useBuiltIns": true }],
-    ["@babel/plugin-transform-arrow-functions"]
+    ["@babel/plugin-transform-arrow-functions"],
+    ["@babel/plugin-transform-typescript"]
   ]
 }

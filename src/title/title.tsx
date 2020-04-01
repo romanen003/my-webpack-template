@@ -4,4 +4,10 @@ import style from './style.scss';
 
 const cn = classNames.bind(style);
 
-export const Title = () => (<p className={cn('title')}>хай</p>);
+export enum TEST {
+    TEST = 'TEST'
+}
+
+export const Title = () => (<p className={cn('title')}>{TEST.TEST}</p>);
+
+

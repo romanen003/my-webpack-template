@@ -4,6 +4,9 @@
     "es6": true,
     "browser": true
   },
+  "parserOptions": {
+    "typescript": true
+  },
   "rules": {
     "no-unused-vars": "warn",
     "react/destructuring-assignment": ["warn" , "always"],
