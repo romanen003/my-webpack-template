@@ -7,6 +7,17 @@
   "parserOptions": {
     "typescript": true
   },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.ts",
+        "**/*.test.tsx"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ],
   "rules": {
     "function-paren-newline": ["error", { "minItems": 3 }],
     "indent": ["error", 4, {
