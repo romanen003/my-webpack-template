@@ -51,7 +51,8 @@
     "react/require-default-props": "off",
     "react/prefer-stateless-function": ["off", {"ignorePureComponents": true}],
     "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error"
+    "react/jsx-uses-vars": "error",
+    "react/no-array-index-key": "error"
   },
   "extends": [
     "eslint:recommended",
