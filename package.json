@@ -9,7 +9,7 @@
     "build:prod": "cross-env NODE_ENV=production webpack",
     "watch": "cross-env NODE_ENV=development webpack --watch",
     "stat": "webpack --json > stat.json && webpack-bundle-analyzer stats.json",
-    "test": "jest --config ./jest.config.js --no-cache",
+    "jest": "jest --config ./jest.config.js --no-cache",
     "eslint": "eslint \"src/**/*.@(ts|tsx)\""
   },
   "keywords": [
