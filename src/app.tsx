@@ -22,3 +22,5 @@ const obj = {
 };
 
 export const a = (props: {a: string}) => props.a;
+
+const b: number = 0;
