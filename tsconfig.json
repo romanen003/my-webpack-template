@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "target": "es5",
     "lib": ["es6", "dom"],
     "sourceMap": true,
     "allowJs": true,
@@ -13,7 +12,10 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "allowSyntheticDefaultImports": true,
-    "pretty": true
+    "pretty": true,
+    "target": "esnext",
+    "noEmit": true,
+    "esModuleInterop": true
   },
   "compileOnSave": true,
   "exclude": [
