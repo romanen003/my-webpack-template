@@ -10,7 +10,7 @@ const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plug
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 
-const getFileName = type => isDev ? `[name].${type}` : `[name].[hash].${type}`; // получение имен файлов
+const getFileName = type => isDev ? `[name].${type}` : `[name].[hash].${type}`;
 const getCssLoaders = () => ([
     isProd ? MiniCssExtractPlugin.loader : 'style-loader',
     {
@@ -32,25 +32,27 @@ const getJsLoaders = () => {
         loaders.push('eslint-loader')
     }
 
+    loaders.push('ts-loader');
+
     return loaders;
 };
 const getPlugins = () => {
     const plugins = [
-        new CleanWebpackPlugin(),  // очистка папки dist
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            template: '../index.html', // путь к шаблону html
-            title: 'Roman\'s app',  // заголовок страницы
+            template: '../index.html',
+            title: 'Roman\'s app',
             minify: {
-                collapseWhitespace: isProd // минификация html
+                collapseWhitespace: isProd
             }
         }),
         new MiniCssExtractPlugin({
-            filename: getFileName('css'),  // название финального файла css
-            chunkFilename: '[id].[hash].css' // имена чанков стилей
+            filename: getFileName('css'),
+            chunkFilename: '[id].[hash].css'
         }),
         new CopyWebpackPlugin([{
-            from: path.resolve(__dirname, 'src/favicon.ico'), // копирование фавиконки
-            to: path.resolve(__dirname, 'dist') // в папку дист
+            from: path.resolve(__dirname, 'src/favicon.ico'),
+            to: path.resolve(__dirname, 'dist')
         }])
     ];
 
@@ -61,20 +63,20 @@ const getPlugins = () => {
     return plugins
 };
 const getRules = () => ([
-    { //правила для ts/tsx файлов
+    {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: getJsLoaders()
     },
-    { //правила для scss файлов
+    {
         test: /\.s[ac]ss$/,
         use: getCssLoaders()
     },
-    { //правила для pictures
+    {
         test: /\.(png|jpg|svg|gif)$/,
         loader: 'file-loader'
     },
-    { //правила для fonts
+    {
         test: /\.(ttf|woff|woff2|eot)$/,
         loader: 'file-loader'
     }
@@ -98,7 +100,7 @@ module.exports = {
         filename: getFileName('js') // имя - маска  бандла
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.tsx', '.ts', '.jpeg', '.jpg'], // импорт файлов данного формата без указания формата
+        extensions: ['.tsx', '.ts', '.jpeg', '.jpg'],
         alias: {
             '@src': path.resolve(__dirname, 'src') // относительный путь в импортах
         }
