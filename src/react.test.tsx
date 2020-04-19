@@ -7,7 +7,7 @@ const STATUS = {
 };
 
 interface Props {
-    page?: {}
+    page?: string
 }
 
 interface State {

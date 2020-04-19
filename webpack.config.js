@@ -32,8 +32,6 @@ const getJsLoaders = () => {
         loaders.push('eslint-loader')
     }
 
-    loaders.push('ts-loader');
-
     return loaders;
 };
 const getPlugins = () => {
@@ -100,7 +98,7 @@ module.exports = {
         filename: getFileName('js') // имя - маска  бандла
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.jpeg', '.jpg'],
+        extensions: ['.js', '.tsx', '.ts', '.jpeg', '.jpg'],
         alias: {
             '@src': path.resolve(__dirname, 'src') // относительный путь в импортах
         }
